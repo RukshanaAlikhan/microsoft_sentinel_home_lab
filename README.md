@@ -12,7 +12,20 @@ Components | Tool
 
 #Use Cases 
 
-###1. We will first look into "Suspicious Deletion of resources". An insider or an attacker could potentially participate in this scenario. Azure should detect the deleted resource.
-###2. Next "Unusual Login Location", unexpected locations where authorized users are logging in from
-###3. Privilege Escalation attempt, Azure should detect when someone is trying to assign themselves a higher role
-###4. A sudden "Mass Resource creation" Azure should detect a spike in resource creation 
+##1. We will first look into "Suspicious Deletion of resources". An insider or an attacker could potentially participate in this scenario. Azure should detect the deleted resource.
+##2. Next "Unusual Login Location", unexpected locations where authorized users are logging in from
+##3. Privilege Escalation attempt, Azure should detect when someone is trying to assign themselves a higher role
+##4. A sudden "Mass Resource creation" Azure should detect a spike in resource creation 
+
+
+// Detection: Suspicious Resource Deletion
+// Detects when Azure resources are deleted
+// MITRE ATT&CK: T1485 - Data Destruction
+
+AzureActivity
+| where OperationNameValue has "DELETE"
+| where ActivityStatusValue == "Success"
+| project TimeGenerated, Caller, 
+          ResourceGroup, OperationNameValue, 
+          CallerIpAddress
+| order by TimeGenerated desc
