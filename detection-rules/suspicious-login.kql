@@ -1,0 +1,16 @@
+// Detection: Suspicious Azure Portal Login
+// Detects logins from unexpected locations
+// or outside business hours
+// MITRE ATT&CK: T1078 - Valid Accounts
+// Severity: Medium
+
+AzureActivity
+| where CategoryValue == "Administrative"
+| where OperationNameValue has "signin"
+| where ActivityStatusValue == "Success"
+| extend Hour = hourofday(TimeGenerated)
+| where Hour < 7 or Hour > 20
+| project TimeGenerated, Caller, 
+          CallerIpAddress, OperationNameValue,
+          Hour
+| order by TimeGenerated desc
