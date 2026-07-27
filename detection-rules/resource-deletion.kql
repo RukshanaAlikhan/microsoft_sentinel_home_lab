@@ -1,0 +1,13 @@
+// Detection: Suspicious Resource Deletion
+// Detects when Azure resources are deleted
+// MITRE ATT&CK: T1485 - Data Destruction
+// Severity: High
+
+AzureActivity
+| where OperationNameValue has "DELETE"
+| where ActivityStatusValue == "Success"
+| where Caller !contains "microsoft"
+| project TimeGenerated, Caller, 
+          ResourceGroup, OperationNameValue, 
+          CallerIpAddress
+| order by TimeGenerated desc
