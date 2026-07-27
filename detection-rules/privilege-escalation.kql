@@ -1,0 +1,14 @@
+// Detection: Privilege Escalation Attempt
+// Detects when a user attempts to assign 
+// elevated roles to themselves or others
+// MITRE ATT&CK: T1078 - Valid Accounts
+// Severity: Critical
+
+AzureActivity
+| where OperationNameValue has "roleAssignments"
+| where ActivityStatusValue == "Success"
+| where Caller !contains "microsoft"
+| project TimeGenerated, Caller, 
+          ResourceGroup, OperationNameValue,
+          CallerIpAddress, Properties
+| order by TimeGenerated desc
