@@ -1,0 +1,14 @@
+// Detection: Mass Resource Creation
+// Detects sudden spike in resource creation
+// Potential cryptomining or data exfiltration
+// MITRE ATT&CK: T1578 - Modify Cloud Compute
+// Severity: Medium
+
+AzureActivity
+| where OperationNameValue has "write"
+| where ActivityStatusValue == "Success"
+| where Caller !contains "microsoft"
+| summarize ResourcesCreated = count() 
+    by Caller, bin(TimeGenerated, 1h)
+| where ResourcesCreated > 10
+| order by ResourcesCreated desc
