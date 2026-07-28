@@ -10,22 +10,32 @@ Components | Tool
 3. Query Language | KQL
 4. Detection rules | Custom Analytical rules
 
-#Use Cases 
+# Use Cases 
 
-##1. We will first look into "Suspicious Deletion of resources". An insider or an attacker could potentially participate in this scenario. Azure should detect the deleted resource.
-##2. Next "Unusual Login Location", unexpected locations where authorized users are logging in from
-##3. Privilege Escalation attempt, Azure should detect when someone is trying to assign themselves a higher role
-##4. A sudden "Mass Resource creation" Azure should detect a spike in resource creation 
+## 1. We will first look into "Suspicious Deletion of resources". An insider or an attacker could potentially participate in this scenario. Azure should detect the deleted resource.
+## 2. Next "Unusual Login Location", unexpected locations where authorized users are logging in from
+## 3. Privilege Escalation attempt, Azure should detect when someone is trying to assign themselves a higher role
+## 4. A sudden "Mass Resource creation" Azure should detect a spike in resource creation 
 
 
-// Detection: Suspicious Resource Deletion
+## 01. Detection: Suspicious Resource Deletion
 // Detects when Azure resources are deleted
 // MITRE ATT&CK: T1485 - Data Destruction
 
 AzureActivity
-| where OperationNameValue has "DELETE"
-| where ActivityStatusValue == "Success"
-| project TimeGenerated, Caller, 
-          ResourceGroup, OperationNameValue, 
-          CallerIpAddress
+| where TimeGenerated > ago(30m)
+| where OperationNameValue has_any ("delete", "DELETE", "write", "WRITE")
+| project TimeGenerated, Caller,ResourceGroup, OperationNameValue,ActivityStatusValue
 | order by TimeGenerated desc
+
+Check screenshot in the screenshots folder.
+
+## What this Lab covers
+- Microsoft Sentinel deployment and configuration
+- Azure Activity Log ingestion via diagnostic settings
+- KQL detection queries for real attack techniques
+- Custom Analytics Rule — Suspicious Resource Deletion
+- Automated incident creation from live detection
+- [INPROGRESS] Incident investigation and response workflow
+- [INPROGRESS] Additional detection rules
+- [INPROGRESS] Incident response playbooks
