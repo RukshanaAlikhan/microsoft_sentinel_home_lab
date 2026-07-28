@@ -19,16 +19,8 @@ Components | Tool
 
 
 ## 01. Detection: Suspicious Resource Deletion
-// Detects when Azure resources are deleted
-// MITRE ATT&CK: T1485 - Data Destruction
-
-AzureActivity
-| where TimeGenerated > ago(30m)
-| where OperationNameValue has_any ("delete", "DELETE", "write", "WRITE")
-| project TimeGenerated, Caller,ResourceGroup, OperationNameValue,ActivityStatusValue
-| order by TimeGenerated desc
-
-Check screenshot in the screenshots folder.
+Check detection rules folder.
+Check screenshot in the screenshots folder for the result. 
 
 ## What this Lab covers
 - Microsoft Sentinel deployment and configuration
