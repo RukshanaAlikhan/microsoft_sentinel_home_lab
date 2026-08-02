@@ -28,6 +28,5 @@ Check screenshot in the screenshots folder for the result.
 - KQL detection queries for real attack techniques
 - Custom Analytics Rule — Suspicious Resource Deletion
 - Automated incident creation from live detection
-- [INPROGRESS] Incident investigation and response workflow
-- [INPROGRESS] Additional detection rules
+- Incident investigation and response workflow
 - [INPROGRESS] Incident response playbooks
