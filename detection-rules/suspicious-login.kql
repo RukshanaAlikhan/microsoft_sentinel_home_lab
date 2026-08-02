@@ -5,12 +5,13 @@
 // Severity: Medium
 
 AzureActivity
-| where CategoryValue == "Administrative"
-| where OperationNameValue has "signin"
+| where TimeGenerated > ago(24h)
 | where ActivityStatusValue == "Success"
-| extend Hour = hourofday(TimeGenerated)
-| where Hour < 7 or Hour > 20
-| project TimeGenerated, Caller, 
-          CallerIpAddress, OperationNameValue,
-          Hour
+| where Caller contains "gmail"
+| extend HourOfDay = hourofday(TimeGenerated)
+| where HourOfDay == 8 or HourOfDay == 9
+| project TimeGenerated, Caller,
+          OperationNameValue,
+          CallerIpAddress,
+          HourOfDay
 | order by TimeGenerated desc
