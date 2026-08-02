@@ -5,10 +5,10 @@
 // Severity: Medium
 
 AzureActivity
-| where OperationNameValue has "write"
+| where TimeGenerated > ago(1h)
+| where OperationNameValue has "WRITE"
 | where ActivityStatusValue == "Success"
 | where Caller !contains "microsoft"
-| summarize ResourcesCreated = count() 
-    by Caller, bin(TimeGenerated, 1h)
-| where ResourcesCreated > 10
-| order by ResourcesCreated desc
+| summarize ResourcesCreated = count()by Caller, bin(TimeGenerated, 1h)
+|where ResourcesCreated > 2
+| order by ResourcesCreated desc 
