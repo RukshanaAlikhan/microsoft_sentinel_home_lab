@@ -3,12 +3,20 @@ A hands-on home lab documenting real SIEM deployment,  log ingestion, KQL detect
 
 Building for the purpose of demonstrating practical SOC skills 
 
-#Lab enviroment build
-Components | Tool
-1. SIEM platform | Microsoft Sentinel
-2. Log source | Azure activity logs
-3. Query Language | KQL
-4. Detection rules | Custom Analytical rules
+## The environment
+ 
+| Component | What I used |
+|---|---|
+| SIEM | Microsoft Sentinel |
+| Log source | Azure Activity Logs, via diagnostic settings |
+| Query language | KQL |
+| Detections | Custom scheduled analytics rules |
+ 
+Azure Activity Logs were a deliberate choice. They're free, they exist in every
+subscription, and they record the control-plane operations an attacker with
+stolen credentials would actually perform — creating resources, changing
+permissions, deleting things. No agents, no connectors to license.
+ 
 
 # Use Cases 
 
